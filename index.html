@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Special Birthday Surprise ✨</title>
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #ff5e7e;
+      --primary-dark: #e04364;
+      --bg-gradient: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 50%, #ffd1dc 100%);
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --text: #2d3142;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text);
+      overflow-x: hidden;
+      padding: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      padding: 32px 24px;
+      box-shadow: 0 20px 40px rgba(255, 94, 126, 0.15), 0 4px 12px rgba(0, 0, 0, 0.04);
+      position: relative;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .step {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .step.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(14px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    h1, h2 {
+      font-weight: 700;
+      color: #1e2029;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      font-size: 0.95rem;
+      color: #636b83;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 99px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 94, 126, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(255, 94, 126, 0.45);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Step 1: Gift Box */
+    .gift-box {
+      font-size: 5.5rem;
+      cursor: pointer;
+      display: inline-block;
+      animation: bounce 2s infinite ease-in-out;
+      user-select: none;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-16px) scale(1.05); }
+    }
+
+    /* Step 2: Cake */
+    .cake-container {
+      position: relative;
+      margin: 20px 0;
+      cursor: pointer;
+    }
+
+    .candle {
+      position: relative;
+      width: 14px;
+      height: 40px;
+      background: repeating-linear-gradient(45deg, #ffd166, #ffd166 6px, #ef476f 6px, #ef476f 12px);
+      border-radius: 4px;
+      margin: 0 auto;
+    }
+
+    .flame {
+      width: 14px;
+      height: 20px;
+      background: #ffbe0b;
+      border-radius: 50% 50% 20% 20%;
+      position: absolute;
+      top: -22px;
+      left: 0;
+      box-shadow: 0 0 16px #ffbe0b, 0 0 24px #fb5607;
+      animation: flicker 0.6s infinite alternate;
+      transition: opacity 0.4s ease;
+    }
+
+    .flame.extinguished {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(-2deg); }
+      100% { transform: scale(1.15) rotate(2deg); }
+    }
+
+    .cake-body {
+      font-size: 5rem;
+      line-height: 1;
+      margin-top: -6px;
+    }
+
+    /* Step 3: Balloons */
+    .balloon-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .balloon {
+      width: 60px;
+      height: 72px;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+      user-select: none;
+    }
+
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 7px solid currentColor;
+    }
+
+    .balloon:hover {
+      transform: translateY(-4px) scale(1.05);
+    }
+
+    .balloon.popped {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .balloon-msg-box {
+      min-height: 56px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      color: #4a5068;
+      border: 1px dashed #ffa5ba;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    /* Step 4: Polaroid Memory Cards */
+    .polaroid {
+      background: white;
+      padding: 10px 10px 24px 10px;
+      border-radius: 4px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+      transform: rotate(-3deg);
+      max-width: 250px;
+      margin: 12px auto;
+      transition: transform 0.3s;
+    }
+
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.03);
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      color: #333;
+      margin-top: 10px;
+    }
+
+    /* Step 5: Letter */
+    .letter-card {
+      background: #fffdfa;
+      border: 1px solid #fae1c3;
+      border-radius: 16px;
+      padding: 22px 18px;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+      width: 100%;
+    }
+
+    .letter-header {
+      font-family: 'Caveat', cursive;
+      font-size: 1.7rem;
+      color: #b25d37;
+      margin-bottom: 8px;
+    }
+
+    .letter-body {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #444;
+      white-space: pre-line;
+    }
+
+    .letter-footer {
+      margin-top: 14px;
+      text-align: right;
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: #b25d37;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- STEP 1: Gift Box -->
+    <div id="step-1" class="step active">
+      <p class="subtitle">A special surprise for someone wonderful</p>
+      <h1>Happy Birthday, <span class="recipient-name">Alex</span>! 🎉</h1>
+      <div class="gift-box" onclick="goToStep(2)">🎁</div>
+      <p style="font-size: 0.85rem; color: #8c93a8; margin-top: 12px;">Tap the box to open your surprise</p>
+    </div>
+
+    <!-- STEP 2: Cake & Candle -->
+    <div id="step-2" class="step">
+      <h2>Make a Wish & Blow! 🎂</h2>
+      <p class="subtitle" id="cake-status">Tap the flame to blow out your candle</p>
+      <div class="cake-container" onclick="blowCandle()">
+        <div class="candle">
+          <div class="flame" id="flame"></div>
+        </div>
+        <div class="cake-body">🎂</div>
+      </div>
+      <button class="btn" id="cake-next-btn" style="display: none;" onclick="goToStep(3)">Continue 🎈</button>
+    </div>
+
+    <!-- STEP 3: Balloons -->
+    <div id="step-3" class="step">
+      <h2>Pop the Balloons 🎈</h2>
+      <p class="subtitle">Tap every balloon to unlock your surprises!</p>
+      <div class="balloon-grid">
+        <div class="balloon" style="background: #ff5964; color: #ff5964;" onclick="popBalloon(this, 'Your laugh lights up every single room! ✨')">1</div>
+        <div class="balloon" style="background: #35a7ff; color: #35a7ff;" onclick="popBalloon(this, 'You make ordinary days feel extraordinary 💛')">2</div>
+        <div class="balloon" style="background: #ffbe0b; color: #ffbe0b;" onclick="popBalloon(this, 'Always there when it matters most 🌟')">3</div>
+        <div class="balloon" style="background: #06d6a0; color: #06d6a0;" onclick="popBalloon(this, 'Best listener & partner in crime 🥳')">4</div>
+      </div>
+      <div class="balloon-msg-box" id="balloon-message">Pop a balloon above...</div>
+      <button class="btn" id="balloon-next-btn" style="display: none;" onclick="goToStep(4)">See Memories 📸</button>
+    </div>
+
+    <!-- STEP 4: Memory Lane -->
+    <div id="step-4" class="step">
+      <h2>Memory Lane 📸</h2>
+      <p class="subtitle">Some of my favorite memories with you</p>
+      <div class="polaroid">
+        <!-- Replace src with your own image URL -->
+        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" alt="Memory Photo" />
+        <div class="polaroid-caption">Best trip ever! ✈️✨</div>
+      </div>
+      <button class="btn" onclick="goToStep(5)">Read Your Letter 💌</button>
+    </div>
+
+    <!-- STEP 5: Heartfelt Letter -->
+    <div id="step-5" class="step">
+      <h2>From the Heart 💌</h2>
+      <p class="subtitle">A special note just for you</p>
+      <div class="letter-card">
+        <div class="letter-header">Dear <span class="recipient-name">Alex</span>,</div>
+        <div class="letter-body">
+Happy Birthday! 🎉
+
+I keep thinking about how grateful I am to have you in my life. You bring so much light, humor, and positivity to everyone around you.
+
+I hope this year brings you genuine happiness, exciting adventures, and everything you've been working toward. Thank you for being uniquely you!
+        </div>
+        <div class="letter-footer">With love, <br>Sam 💛</div>
+      </div>
+      <button class="btn" onclick="celebrateFull()">Celebrate! 🎊</button>
+    </div>
+  </div>
+
+  <script>
+    // Navigation between steps
+    function goToStep(stepNumber) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      const nextStep = document.getElementById(`step-${stepNumber}`);
+      if (nextStep) {
+        nextStep.classList.add('active');
+      }
+      triggerMiniConfetti();
+    }
+
+    // Step 2: Blow candle
+    let candleBlown = false;
+    function blowCandle() {
+      if (candleBlown) return;
+      candleBlown = true;
+      document.getElementById('flame').classList.add('extinguished');
+      document.getElementById('cake-status').innerText = "Wish made! 🎉 Click below to continue.";
+      document.getElementById('cake-next-btn').style.display = 'inline-flex';
+      triggerConfetti();
+    }
+
+    // Step 3: Balloon popping logic
+    let poppedCount = 0;
+    const totalBalloons = 4;
+    function popBalloon(el, msg) {
+      if (el.classList.contains('popped')) return;
+      el.classList.add('popped');
+      document.getElementById('balloon-message').innerText = `"${msg}"`;
+      triggerMiniConfetti();
+      poppedCount++;
+      if (poppedCount === totalBalloons) {
+        document.getElementById('balloon-next-btn').style.display = 'inline-flex';
+      }
+    }
+
+    // Confetti effects
+    function triggerMiniConfetti() {
+      confetti({
+        particleCount: 25,
+        spread: 45,
+        origin: { y: 0.8 }
+      });
+    }
+
+    function triggerConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function celebrateFull() {
+      const duration = 3 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) return clearInterval(interval);
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 } }));
+      }, 250);
+    }
+  </script>
+</body>
+</html>
