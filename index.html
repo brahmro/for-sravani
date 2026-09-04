@@ -615,29 +615,37 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     }
 
+.letter-sheet,
+    .letter-sheet * {
+      font-family: 'Caveat', cursive !important;
+    }
+
     .letter-header {
-      font-family: 'Caveat', cursive;
-      font-size: 1.85rem;
+      font-size: 2rem;
+      font-weight: 700;
       color: #9c431d;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      line-height: 1.2;
     }
 
     .letter-body {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: #3b4256;
+      font-size: 1.35rem; /* Slightly larger so handwriting remains crisp and easy to read */
+      line-height: 1.45;
+      font-weight: 600;
+      color: #4a3429;
       white-space: pre-line;
     }
 
     .letter-footer {
-      margin-top: 14px;
+      margin-top: 16px;
       text-align: right;
-      font-family: 'Caveat', cursive;
-      font-size: 1.6rem;
+      font-size: 1.85rem;
+      font-weight: 700;
       color: #9c431d;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
+      line-height: 1.15;
     }
   </style>
 </head>
@@ -727,7 +735,7 @@
         <div class="polaroid-wrapper">
           <div class="polaroid" id="polaroid-card">
             <img id="carousel-img" src="./1.jpg" alt="Memory Photo" />
-            <div class="polaroid-caption" id="carousel-caption">Memory 1 ✨</div>
+            <div class="polaroid-caption" id="carousel-caption">The day we met ✈️</div>
           </div>
         </div>
 
@@ -782,12 +790,12 @@ I hope this year brings you genuine happiness, exciting adventures, and everythi
       { src: "./7.jpg", caption: "Favourite photos keep coming" },
       { src: "./8.jpg", caption: "Random throwback :)" },
       { src: "./9.jpg", caption: "My partner in crime" },
-      { src: "./10.jpg", caption: "The day you had to leave but didnt 🥳" },
+      { src: "./10.jpeg", caption: "The day you had to leave but didnt 🥳" },
       { src: "./11.jpg", caption: "Final day of India trip :(" },
-      { src: "./12.jpg", caption: "Our First Rakhi" },
+      { src: "./12.jpg", caption: "Our First Rakhi", fit: "contain" },
       { src: "./13.jpg", caption: "Mana car" },
       { src: "./14.jpg", caption: "The stupid company which made us meet" },
-      { src: "./15.jpg", caption: "Making every moment count" },
+      { src: "./15.jpg", caption: "Making every moment count", fit: "contain" },
       { src: "./16.jpg", caption: "Keeping Hugging me" },
       { src: "./17.jpg", caption: "Happy Birthday my favorite! 💖" }
     ];
@@ -796,17 +804,19 @@ I hope this year brings you genuine happiness, exciting adventures, and everythi
 
     function updateCarousel() {
       const img = document.getElementById('carousel-img');
-      const cap = document.getElementById('carousel-caption');
-      const counter = document.getElementById('slide-counter');
-      const card = document.getElementById('polaroid-card');
+  const cap = document.getElementById('carousel-caption');
+  const counter = document.getElementById('slide-counter');
+  const card = document.getElementById('polaroid-card');
 
-      card.style.transform = `rotate(${Math.sin(currentSlide) * 3}deg) scale(0.98)`;
-      setTimeout(() => {
-        img.src = memories[currentSlide].src;
-        cap.innerText = memories[currentSlide].caption;
-        counter.innerText = `${currentSlide + 1} / ${memories.length}`;
-        card.style.transform = `rotate(${Math.sin(currentSlide) * 3}deg) scale(1)`;
-      }, 100);
+  card.style.transform = `rotate(${Math.sin(currentSlide) * 3}deg) scale(0.98)`;
+  setTimeout(() => {
+    const item = memories[currentSlide];
+    img.src = item.src;
+    img.style.objectFit = item.fit || 'cover'; /* Zooms out portrait photos to fit fully */
+    cap.innerText = item.caption;
+    counter.innerText = `${currentSlide + 1} / ${memories.length}`;
+    card.style.transform = `rotate(${Math.sin(currentSlide) * 3}deg) scale(1)`;
+  }, 100);
     }
 
     function changeSlide(direction) {
