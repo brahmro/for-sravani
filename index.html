@@ -390,13 +390,14 @@
     }
 
     .balloon-item.popping .balloon-emerge-text {
-      animation: emergeAndGrow 0.75s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: emergeAndGrow 2s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     @keyframes emergeAndGrow {
       0% { transform: translate(-50%, 0) scale(0.2); opacity: 0; }
-      50% { transform: translate(-50%, -45px) scale(1.2); opacity: 1; }
-      100% { transform: translate(-50%, -70px) scale(1); opacity: 0; }
+  25% { transform: translate(-50%, -50px) scale(1.2); opacity: 1; }
+  80% { transform: translate(-50%, -55px) scale(1.15); opacity: 1; } /* Holds visible for most of the duration */
+  100% { transform: translate(-50%, -75px) scale(0.9); opacity: 0; }
     }
 
     .balloon-msg-box {
@@ -750,15 +751,15 @@
         <div class="envelope-seal">💌</div>
         
         <div class="letter-sheet">
-          <div class="letter-header">Dear <span class="recipient-name">Alex</span>,</div>
+          <div class="letter-header">My Love <span class="recipient-name">Sravani</span>,</div>
           <div class="letter-body">Happy Birthday! 🎉
 
 I keep thinking about how grateful I am to have you in my life. You bring so much light, humor, and positivity to everyone around you.
 
 I hope this year brings you genuine happiness, exciting adventures, and everything you've been working toward. Thank you for being uniquely you!</div>
           <div class="letter-footer">
-            <span>With love,</span>
-            <span>Sam 💛</span>
+            <span>With love❤️,</span>
+            <span>Rohit</span>
           </div>
         </div>
 
